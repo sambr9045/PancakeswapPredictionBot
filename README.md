@@ -1,2 +1,7 @@
-# PancakeswapPredictionBot
-Pancakeswap Prediction bot using python and javascript
+# PancakeSwapPredictionBot
+Hello !!
+ This is pancake predict bot with binance mainnet 
+
+#Technologies used <br>
+Python <br>
+Javascripts
