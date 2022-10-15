@@ -18,21 +18,22 @@ def main():
 
     if locked:
         # wallet_1
-        prediction = initiation(*wallet_1)
-        prediction2 = initiation(*wallet_2)
+        prediction = initiation(wallet_1[1], wallet_1[0])
+        prediction2 = initiation(wallet_2[1], wallet_2[0])
         if prediction.claimable():
             prediction.claim_wining()
             locked = True
             prediction_message = f"wallet one monie claime"
+
         else:
-            print(f"claimable fable wallet 1")
+            print(f"claimable fable wallet 1 code {prediction.current_epoch}")
 
         if prediction2.claimable():
             prediction2.claim_wining()
             locked = True
             prediction_message = f"wallet two monie claime"
         else:
-            print(f"claimable fable wallet 2")
+            print(f"claimable fable wallet 2 code {prediction2.current_epoch}")
     else:
         # look for trade
         looking = prediction.look_for_trade()
@@ -46,11 +47,12 @@ def main():
 
         if seconds <= 10:
             if ((bull >= 1.4) and (bear >= 2.4)) or ((bull >= 2.4) and (bear >= 1.4)):
-                # prediction.send_transaction(AMOUNT_TO_TRADE, 'bear')
-                # # sending second wallet
-                # prediction2.send_transaction(AMOUNT_TO_TRADE, 'bull')
-                # locked = True
-                print(f"in position order placed Bull{bull}, Bear {bear}")
+                prediction.send_transaction(AMOUNT_TO_TRADE, 'bear')
+                # sending second wallet
+                prediction2.send_transaction(AMOUNT_TO_TRADE, 'bull')
+                locked = True
+
+                print(f" {seconds} in position order placed Bull{bull}, Bear {bear}")
                 locked = True
             else:
                 message = f"bull , bear not in market {bull, bear}"
@@ -58,13 +60,18 @@ def main():
         else:
             message = f"Seconde: {seconds}, Bull {bull}, Bear {bear} \n"
             return message
-    print(prediction_message)
+    write_file(prediction_message)
 
 
 def initiation(pk, address):
     path = os.getcwd() + "/src/abi/abi.json"
     pancake = base.Base(pk, address, path)
     return pancake
+
+
+def write_file(message):
+    with open("predictions.txt", "a") as file:
+        file.write(message)
 
 
 # Press the green button in the gutter to run the script.
