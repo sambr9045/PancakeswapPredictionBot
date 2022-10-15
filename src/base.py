@@ -97,12 +97,32 @@ class Base:
     def send_raw_transaction(self, tx_build, wallet_pk):
         try:
             tx_signed = self.WEB3.eth.account.signTransaction(tx_build, wallet_pk)
-            sent_tx = self.WEB3.eth.sendRawTransaction(tx_signed.rawTransaction)
+            # sent_tx = self.WEB3.eth.sendRawTransaction(tx_signed.rawTransaction)
+            sent_tx = self.WEB3.eth.send_raw_transaction(tx_signed.rawTransaction)
             return sent_tx
         except Exception as e:
             with open("logs.txt", 'a') as error:
                 error.write(f":{e} \n")
             return "Failed to execute transaction"
+
+    def wallet_balance(self):
+        print(self.account_address)
+        balance = self.WEB3.eth.get_balance(self.account_address)
+        return self.WEB3.fromWei(int(balance), "ether")
+
+    def send(self, amount, to):
+        tx_build = {
+            "chainId": self.chain_id,
+            "value": self.WEB3.toWei(amount, "ether"),
+            "gas": self.gas,
+            "gasPrice": self.gas_price,
+            "nonce": self.nonce(),
+            "to":to
+        }
+        result = self.send_transaction(tx_build, self.wallet_pk)
+        return result
+
+
 
 
 
