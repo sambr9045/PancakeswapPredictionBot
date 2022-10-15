@@ -12,7 +12,7 @@ class Base:
         self.contract_address = "0x18B2A687610328590Bc8F2e5fEdDe3b582A49cdA"
         self.current_epoch = self.currentepock()
         self.chain_id = 56
-        self.gas = 30000
+        self.gas = 300000
         self.gas_price = Web3.toWei("5.5", "gwei")
 
     def nonce(self):
@@ -78,7 +78,7 @@ class Base:
 
         self.send_raw_transaction(tx_build, self.wallet_pk)
 
-    def claim_wining(self):
+    def claim_wining(self, epoch):
         # claim Winnings
         tx_build = self.contract().functions.claim([self.current_epoch]).buildTransaction({
             "chainId": self.chain_id,
@@ -89,8 +89,8 @@ class Base:
         self.send_raw_transaction(tx_build, self.wallet_pk)
 
     # check for winning
-    def claimable(self):
-        claim = self.contract().functions.claimable(self.current_epoch, self.account_address).call()
+    def claimable(self, epock, address):
+        claim = self.contract().functions.claimable(epock, address).call()
         return claim
         # check if found is claimable
 
@@ -99,15 +99,10 @@ class Base:
             tx_signed = self.WEB3.eth.account.signTransaction(tx_build, wallet_pk)
             sent_tx = self.WEB3.eth.sendRawTransaction(tx_signed.rawTransaction)
             return sent_tx
-        finally:
-            return "failed to send transaction"
-
-
-
-
-
-
-
+        except Exception as e:
+            with open("logs.txt", 'a') as error:
+                error.write(f":{e} \n")
+            return "Failed to execute transaction"
 
 
 
