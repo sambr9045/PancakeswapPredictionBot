@@ -69,6 +69,6 @@ if __name__ == "__main__":
     #  )
     #  """
     # print(connection.execute_query(db, create_table))
-    # print(connection.read_query(db, "SELECT * FROM BET"))
+    # # print(connection.read_query(db, "SELECT * FROM BET"))
     # print(connection.create_database(db, "CREATE DATABASE pancakeswapprediction"))
     pass

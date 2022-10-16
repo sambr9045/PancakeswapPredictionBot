@@ -14,7 +14,7 @@ locked = False
 
 def main(database_connection):
     global locked
-    AMOUNT_TO_TRADE = 0.01
+    AMOUNT_TO_TRADE = 0.015
     wallet_1 = [os.getenv('wallet_pk_one'), os.getenv("wallet_address_one")]
     wallet_2 = [os.getenv('wallet_pk_two'), os.getenv("wallet_address_two")]
     prediction = initiation(wallet_1[1], wallet_1[0])
@@ -35,12 +35,20 @@ def main(database_connection):
 
         difference = make_number_equal(float(wallet_balance_one), float(wallet_balance_two))
         if difference[1] == "wallet1":
-            result = prediction.send(difference[0], prediction.account_address)
-            print("wallet")
+           try:
+               result = prediction.send(difference[0], prediction.account_address)
+               print("wallet")
+           except:
+               result ="wallet1 send monie to wallet 2 error \n"
+               pass
         else:
-           result = prediction2.send(difference[0], prediction2.account_address)
-            print("wallet2")
-        write_file(f"Send money from one account to different account {result}")
+            try:
+                result = prediction2.send(difference[0], prediction2.account_address)
+                print("wallet2")
+            except:
+                write_file(f"wallet2 send money to wallet one error \n")
+                pass
+        write_file(f"Send money from one account to different account {result} \n")
 
         claimable1 = prediction.claimable(current_epock, prediction.account_address)
         claimable2 = prediction2.claimable(current_epock, prediction2.account_address)
@@ -77,10 +85,15 @@ def main(database_connection):
             time.sleep(seconds-20)
 
         if seconds <= 10:
-            if ((bull >= 1.0) and (bear >= 2.0)) or ((bull >= 2.0) and (bear >= 1.0)):
+            if ((bull >= 1.5) and (bear >= 2.5)) or ((bull >= 2.5) and (bear >= 1.5)) or ((bull >= 3.5) and (bear >=1.2)) :
                 # placing bet
-                tx_pk1 = prediction.send_transaction(AMOUNT_TO_TRADE, 'bear')
-                tx_pk2 = prediction2.send_transaction(AMOUNT_TO_TRADE, 'bull')
+                tx_pk1 = None
+                tx_pk2 = None
+                try:
+                    tx_pk1 = prediction.send_transaction(AMOUNT_TO_TRADE, 'bear')
+                    tx_pk2 = prediction2.send_transaction(AMOUNT_TO_TRADE, 'bull')
+                except Exception as e:
+                    write_file(f"Error: {e}")
 
                 # collecting data
                 data1 = [prediction.current_epoch, bear, bull, 1, tx_pk1, False, datetime.now()]
