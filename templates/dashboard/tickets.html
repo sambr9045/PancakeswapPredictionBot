@@ -1,0 +1,73 @@
+{% extends 'dashboard/base.html' %}
+{% block header %}
+<title>Infogete | Tickets </title>
+
+{% endblock  %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row ">
+        <div class="col-lg-8 ">
+            <div class="card rounded-1">
+                <div class="card-body">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+
+                        {% if message.tags == "error" %}
+                        <li {% if message.tags %} class="text-danger pt-2 pr-2" {% endif %}>{{ message }}</li>
+                        {% else %}
+                        <li {% if message.tags %} class="text-{{ message.tags }} pt-2 pr-2" {% endif %}>{{ message }}
+                        </li>
+                        {% endif %}
+
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <form method="post" action="tickets">
+                        {% csrf_token %}
+                        {{form.as_p}}
+
+
+                        <div class="d-grid mt-3"><button type="submit" name="openTicket" class="btn btn-primary btn-none">Open new ticket
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card rounded-1">
+                <div class="card-body">
+                    <ul class="list-group ">
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <a href="/dashboard/tickets-list/all/" style="text-decoration:none;">
+                                Total ticket
+                            </a>
+                            <span class="badge badge-primary badge-pill"><a href="/dashboard/tickets-list/all/"
+                                    style="text-decoration: none;">{{tickets.all_ticket}}</a></span>
+
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <a href="/dashboard/tickets-list/closed/" style="text-decoration:none ;">closed tickets</a>
+                            <span class="badge badge-primary badge-pill"><a href="/dashboard/tickets-list/closed/"
+                                    style="text-decoration: ;">{{tickets.closed_ticket}}</a></span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+                            <a href="/dashboard/tickets-list/pending/" style="text-decoration: none;">pending Tickets</a>
+                            <span class="badge badge-primary badge-pill"><a href="/dashboard/tickets-list/pending/"
+                                    style="text-decoration:none ;">{{tickets.pending_ticket}}</a></span>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+{% endblock  %}

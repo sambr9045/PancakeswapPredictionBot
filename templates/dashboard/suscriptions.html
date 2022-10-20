@@ -1,0 +1,123 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Infogete | Suscription</title>
+
+{% endblock  %}
+
+{% block content %}
+
+
+{% if plan.plan is None %}
+
+{% endif %}
+
+<div class="content-wrapper">
+
+    {% csrf_token %}
+
+    {% if messages %}
+    <ul class="messages p-0">
+        {% for message in messages %}
+
+
+        {% if message.tags == "success" %}
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Success !!!.</h4>
+            <p>{{message}}.</p>
+            <hr>
+            <p class="mb-0"></p>
+        </div>
+
+        {% else %}
+
+        <h6 class="text-danger pt-2">{{message}}</h6>
+
+
+
+        {% endif %}
+
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="tab-content border-0 p-0" id="pricingpills-tabContent">
+        <div class="tab-pane fade show active" id="pills-monthly" role="tabpanel" aria-labelledby="pills-monthly-tab">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card plan-card mt-4 rounded text-center border-0 shadow overflow-hidden">
+                        <div class="card-body px-4 py-5">
+                            <!-- <div class="icon-mono avatar-md bg-soft-primary text-primary rounded mx-auto mb-5"><i class="icon-lg" data-feather="circle"></i></div> -->
+                            <div class="icon-mono avatar-md bg-soft-primary rounded mx-auto mb-5 p-3">
+                                <img src="{% static 'images/pricing/1.png' %}" alt=""
+                                    class="img-fluid d-block mx-auto" />
+                            </div>
+                            <h4 class="text-uppercase mb-4 pb-1">Basic</h4>
+                            <p class="text-muted">unlimited articles: <span class="fw-bold">No</span></p>
+                            <p class="text-muted">Received articles by Email : <span class="fw-bold">Yes</span></p>
+                            <p class="text-muted">One on One Coaching : <span class="fw-bold">No</span></p>
+                            <p class="text-muted">Tools Recommendation : <span class="fw-bold">No</span></p>
+
+                            <p class="text-dark font-size-16 font-weight-semibold mb-4">$10.00 / Month
+                            </p>
+                            <a href="/dashboard/suscribe/basic/" class="btn btn-primary"><i class="mdi mdi-select-all "
+                                    style="vertical-align:middle;"></i> select</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card plan-card mt-4 rounded text-center border-0 shadow overflow-hidden">
+                        <div class="card-body px-4 py-5">
+
+                            <!-- <div class="icon-mono avatar-md bg-soft-primary text-primary rounded mx-auto mb-5"><i class="icon-lg" data-feather="square"></i></div> -->
+                            <div class="icon-mono avatar-md bg-soft-primary rounded mx-auto mb-5 p-3">
+                                <img src="{% static 'images/pricing/2.png' %}" alt=""
+                                    class="img-fluid d-block mx-auto" />
+                            </div>
+                            <h4 class="text-uppercase mb-4 pb-1">Standard</h4>
+                            <p class="text-muted">unlimited articles: <span class="fw-bold">Yes</span></p>
+                            <p class="text-muted">Received articles by Email : <span class="fw-bold">Yes</span></p>
+                            <p class="text-muted">One on One Coaching : <span class="fw-bold">No</span></p>
+                            <p class="text-muted">Tools Recommendation : <span class="fw-bold">No</span></p>
+
+
+                            <p class="text-dark font-size-16 font-weight-semibold mb-4">$40.00 / Month
+                            </p>
+                            <a href="/dashboard/suscribe/standart/" class="btn btn-primary"><i
+                                    class="mdi mdi-select-all " style="vertical-align:middle;"></i> select</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card plan-card mt-4 rounded text-center border-0 shadow overflow-hidden">
+                        <div class="card-body px-4 py-5">
+                            <!-- <div class="icon-mono avatar-md bg-soft-primary text-primary rounded mx-auto mb-5"><i class="icon-lg" data-feather="triangle"></i></div> -->
+                            <div class="icon-mono avatar-md bg-soft-primary rounded mx-auto mb-5 p-3">
+                                <img src="{% static 'images/pricing/3.png' %}" alt=""
+                                    class="img-fluid d-block mx-auto" />
+                            </div>
+                            <h4 class="text-uppercase mb-4 pb-1">Premium</h4>
+                            <p class="text-muted">You will Receive article email When new method found . before the rest of suscribers,</p>
+                            <p class="text-muted">unlimited articles: <span class="fw-bold">Yes</span></p>
+                            <p class="text-muted">Received articles by Email : <span class="fw-bold">Yes</span></p>
+                            <p class="text-muted">One on One Coaching : <span class="fw-bold">Yes</span></p>
+                            <p class="text-muted">Tools Recommendation : <span class="fw-bold">Yes</span></p>
+                            <p class="text-dark font-size-16 font-weight-semibold mb-4">$100 / Month
+                            </p>
+                            <a href="/dashboard/suscribe/premium/" class="btn btn-primary"><i
+                                    class="mdi mdi-select-all " style="vertical-align:middle;"></i> select</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end monthly tab pane -->
+
+
+        <!-- end yearly tab pane -->
+    </div>
+
+</div>
+{% endblock  %}

@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Arbitrage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="infogete Login to your account" />
+    <meta name="keywords" content="Infogete suscribe to latest carding , loading , logs, cashout tutorials" />
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+
+    <!-- css -->
+    
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css" />
+</head>
+
+<body data-spy="scroll" data-target="#navbar" data-offset="20">
+    <!-- Loader -->
+    {% comment %} <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <section class="bg-account-pages vh-100 d-flex align-items-center bg-center position-relative"
+        style="background-image: url(static/images/crypto.jpg);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5">
+                    <div class="bg-white shadow">
+                        <div class="p-4">
+                            <div class="text-center mt-3">
+                                {% comment %} <a href="/">
+                                    <img src="{% static 'images/logo-dark.png' %}" alt="" class="logo-dark" height="80" />
+                                </a> {% endcomment %}
+                               
+                               {% if form is not None %}
+                               <p class="text-muted mt-2">Login</p>
+                               {% endif %}
+                                
+                            </div>
+                            <div class="p-3">
+
+                               
+
+                              
+                                <form novalidate="" action="/login" method="post" class="av-invalid">
+                                    {% csrf_token %}
+
+                                    {% if messages %}
+                                    <ul class="messages p-0">
+                                        {% for message in messages %}
+    
+                                         
+                                         {% if message.tags == "success" %}
+    
+                                         <div class="alert alert-success" role="alert">
+                                            <h4 class="alert-heading">Welcome !!!.</h4>
+                                            <p>{{message}}.</p>
+                                            <hr>
+                                            <p class="mb-0"></p>
+                                          </div>
+    
+                                          {% else %}
+    
+                                          <h6 class="text-danger pt-2">{{message}}</h6>
+    
+                                      
+                                        
+                                         {% endif %}
+                                            
+                                        {% endfor %}
+                                    </ul>
+                            {% endif %}
+
+                                   
+                                    {% for field in form %}
+
+                                    <div class="mb-3">
+                                      
+                                        <label for="{{field.label}}" class="form-label">{{field.label}}</label>
+                                         {{field}}
+                                     
+                                            
+                                         {% if field.errors %}
+                                            {% comment %} {% if form.errors.items[] == field.label %} {% endcomment %}
+                                            <h6 class="text-danger pt-2">{{field.errors}}</h6>
+                                            <small>{{ field.help}}</small>
+                                            {% comment %} {% endif %} {% endcomment %}
+                                                
+
+
+                                            
+                                        {% endif %}
+                                         
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    
+                                    {% if form is not None %}
+                                        
+
+
+                                    <div class="d-grid mt-3"><button type="submit" class="btn btn-primary btn-none">Log
+                                            In</button></div>
+                                 
+                                    {% endif %}
+                                        
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </section>
+    <!-- end section -->
+
+    <!-- javascript -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/smooth-scroll.polyfills.min.js' %}"></script>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- App Js -->
+    <script src="{% static 'js/app.js' %}"></script>
+</body>
+
+</html>
+

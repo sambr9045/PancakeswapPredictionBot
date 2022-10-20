@@ -1,0 +1,147 @@
+{% extends 'dashboard/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block header %}
+<title>Infogete | Dashboard </title>
+
+{% endblock  %}
+
+{% block category %}
+
+<li class="nav-item dropdown d-none d-lg-block">
+  <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#"
+    data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a>
+  <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
+    <a class="dropdown-item py-3">
+      <p class="mb-0 font-weight-medium float-left">Select category</p>
+    </a>
+    <div class="dropdown-divider"></div>
+    {% for i in category %}
+    <a class="dropdown-item preview-item" href="/dashboard/?category={{i.category}}">
+      <div class="preview-item-content flex-grow py-2">
+        <p> {{i.category}} </p>
+        <!-- <p class="fw-light small-text mb-0">This is a Bundle featuring 16 unique dashboards</p> -->
+      </div>
+    </a>
+    {% endfor %}
+
+  </div>
+</li>
+{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+
+
+
+  <div class="row mb-4">
+    <div class="col-lg-10">
+
+      <div class="alert alert-success saved_article_alert fade shadow" role="alert"
+        style="position: fixed; right:0; top:20; z-index:399; margin-right:20px">
+        <strong>Alert !!</strong> <span class="alert-Text"></span>
+
+      </div>
+
+      {% for i in article %}
+
+      <div class="card text-center rounded-0 mb-4">
+        <div class="card-header ">
+          <span>This article has <b>{{i.success_ratio}}</b> success ratio</span>
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{i.article_title}}</h4>
+          <p class="card-text">This article has been tested and verified by our team to make sure it works </p>
+
+          <a href="#" article_id="{{i.article_id}}" class="readLater btn btn-secondary"> <i
+              class=" mdi mdi-content-save " style="vertical-align:middle;"></i> Read later</a>
+          <a href="{% url 'viewarticle' i.article_id i.article_title %}" class="btn btn-primary "><i class="
+            mdi mdi-book-open " style="vertical-align:middle;"></i> Read</a>
+        </div>
+        <div class="card-footer text-muted">
+          {{i.created_at|naturaltime}} <span class="p-2"><i class=" mdi mdi-eye"
+              style="vertical-align: middle;"></i>&nbsp;<small>{{i.views|intword}}</small></span>
+          <span class="p-2"><i class="
+            mdi mdi-heart-outline " style="vertical-align: middle;"></i>&nbsp;<small>{{i.likes|intword}}</small></span>
+        </div>
+      </div>
+      {% endfor %}
+
+
+
+
+
+
+
+    </div>
+    <!-- 
+    <div class="col-lg-4 col-md-0 col-sm-0">
+      <div class="card rounded-1">
+        <div class="card-body p-2">
+          <ul class="list-group ">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+              Views
+              <span class="badge badge-primary badge-pill">1434</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+              Likes
+              <span class="badge badge-primary badge-pill">2000</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+              Success Ratio
+              <span class="badge badge-primary badge-pill">90%</span>
+
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+
+  <div class="pagination">
+    <nav aria-label="Page navigation  ">
+      <ul class="pagination">
+        {% if article.has_previous %}
+
+        <li class="page-item"><a class="page-link" href="?page={{ article.previous_page_number }}">Previous</a></li>
+        {% endif %}
+
+        {% for i in article.paginator %}
+
+        <li class="page-item {% if i.number == pageNumber %} active {% endif %} shadow"><a class="page-link"
+            href="?page={{i.number }}">{{i.number}}
+          </a>
+
+        </li>
+
+        {% endfor %}
+
+        {% if article.has_next %}
+        <!-- <a href="?page={{ article.next_page_number }}">next</a>
+                <a href="?page={{ article.paginator.num_pages }}">last &raquo;</a> -->
+        <li class="page-item"><a class="page-link" href="?page={{ article.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+
+
+      </ul>
+    </nav>
+  </div>
+
+
+
+</div>
+{% endblock  %}
+
+
+
+{% block footer %}
+<script src="{% static 'dashboard/js/home.js' %}"></script>
+{% endblock %}

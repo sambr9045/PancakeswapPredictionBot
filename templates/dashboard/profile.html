@@ -1,0 +1,140 @@
+{% extends 'dashboard/base.html' %}
+{% load qr_code %}
+
+{% block header %}
+<title>Infogete | profile</title>
+<!-- JavaScript Bundle with Popper -->
+<!-- CSS only -->
+
+
+{% endblock  %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row ">
+
+
+        <div class="col-lg-12 mb-4">
+
+            {% if messages %}
+            <ul class="messages p-0">
+                {% for message in messages %}
+
+
+                {% if message.tags == "success" %}
+
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Welcome !!!.</h4>
+                    <p>{{message}}.</p>
+                    <hr>
+                    <p class="mb-0"></p>
+                </div>
+
+                {% else %}
+
+                <h6 class="text-danger pt-2">{{message}}</h6>
+
+
+
+                {% endif %}
+
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <i class="mdi mdi-account-card-details " style="vertical-align: middle;"></i> Account information
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Username
+                            <span class="text-left w-50"><b>{{request.user.username}}</b></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Email
+                            <span class="text-left w-50"><b>{{request.user.email}}</b></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Menber since
+                            <span class="text-left w-50"><b>{{request.user.date_joined}}</b></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-12 mb-4">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <i class=" mdi mdi-settings " style="vertical-align: middle;"></i> Account Settings
+                </div>
+                <div class="card-body p-0">
+
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Password
+                            <span class="text-left w-50"><b>***************</b> <a href="/dashboard/change-password"
+                                    class="btn btn-danger">change password</a></span>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12 mb-4">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <i class=" mdi mdi-receipt " style="vertical-align: middle;"></i>Your Suscriptions
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Suscriptions Type
+                            <span class="text-left w-50 text-muted">
+                                {% if suscription is not None %}
+                                <b class="text-info"> {{suscription.plan}}</b>
+                                {% else %}
+                                You have no active suscription plan
+
+                                {% endif %}
+                                </b></span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Expiration
+                            <span class="text-left w-50 text-muted">
+
+                                {% if suscription is not None %}
+                                <b>{{suscription.expired_on}}</b>
+                                {% else %}
+                                None
+                                {% endif %}
+
+                            </span>
+                        </li>
+
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Auto renew
+                            <span class="text-left w-50 text-muted">
+
+
+                                
+                            </span>
+                        </li> -->
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+{% endblock  %}

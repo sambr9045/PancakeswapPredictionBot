@@ -1,0 +1,168 @@
+{% extends 'cpanel/base.html' %}
+{% block header %}
+<title>Bots | Dashboard</title>
+
+{% endblock  %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <p class="text-success">balance</p>
+                </div>
+                <div class="card-body">
+
+                    <div class="div row">
+
+                        <div class="col-sm-6">
+                            <div class="card rounded-1">
+                                <div class="card-body text-center">
+                                    <h3
+                                        style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;font-weight:bolder;">
+                                        $ {{ wallet_one }}</h3>
+
+                                    <p class="text-muted">wallet one</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="card rounded-1">
+                                <div class="card-body text-center">
+                                    <h3
+                                        style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;font-weight:bolder;">
+                                        $ {{ wallet_two }} </h3>
+
+                                    <p class="text-muted">wallet two</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <p class="text-muted">Pancakeswap Prediciton</p>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total bet
+                            <span class="badge badge-primary badge-pill">{{total_bet}}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Profitable bet
+                            <span class="badge badge-primary badge-pill">{{total_success}}</span>
+                        </li>
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total moany Loss
+                            <span class="badge badge-primary badge-pill">1</span>
+                        </li> -->
+
+                        <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Overall Profite
+                            <span class="badge badge-primary badge-pill">1</span>
+                        </li> -->
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <p class="text-muted server" server="{{server.status}}">Server Status :
+                        <!-- <span class="text-success">Live</span> -->
+                        {% if server.status == True %}
+                        <span class="text-success server-Status">Live</span>
+                        {% else %}
+                        <span class="text-danger server-Status">Down</span>
+
+                        {% endif %}
+
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+
+                        {% if server.status == True %}
+                        <button class="btn btn-success checkserver" title="click to view">Check server status </button>
+
+                        {% else %}
+                        <button class="btn btn-danger startarbitrage" title="click to view">Start server </button>
+
+                        {% endif %}
+
+
+                    </div>
+                    <div class="w-100 mt-2 bg-dark p-2 text-light d-none terminal"
+                        style="height: 150px!important;overflow:auto;">
+                        <samp class=""></samp>
+                    </div>
+
+
+                    <!-- form -->
+                    <br>
+
+
+                    <!--form start  -->
+                    <div class="text-center info d-none">
+                        <form id="form">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail4">balance</label>
+                                    <input type="number" class="form-control" id="inputEmail4"
+                                        placeholder="Balance in $" name="balance">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Trade Type</label>
+                                    <input type="text" class="form-control" id="inputPassword4"
+                                        placeholder="Type ex: gamble, safe, minimum_safeti" name="bet_type">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-danger continuer" name="continue">Continuer</button>
+                        </form>
+                    </div>
+                    <!-- form end -->
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <p class="text-muted">Show details</p>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <button class="btn btn-info showdetails">Show details</button>
+                        <button class="btn btn-danger clearLogs">Clear logs</button>
+                    </div>
+                    <div class="terminal2 d-none">
+                        <samp class="the3">
+                            hello world
+                        </samp>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock  %}

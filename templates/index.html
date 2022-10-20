@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+    <meta charset="utf-8" />
+    <title>Infogete</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="infogete suscribe to latest tutorials" />
+    <meta name="keywords" content="Infogete suscribe to latest carding , loading , logs, cashout tutorials" />
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+
+    <!-- css -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css" />
+</head>
+
+<body data-spy="scroll" data-target="#navbar" data-offset="20">
+
+    <!-- Loader -->
+    {% comment %} <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <!--Navbar Start-->
+    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+        <div class="container">
+            <!-- LOGO -->
+            <a class="navbar-brand logo" href="/">
+                <img src="{% static 'images/logo-dark.png' %}" alt="" class="logo-dark" height="68" />
+                <img src="{% static 'images/logo-light.png' %}" alt="" class="logo-light" height="68" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="" data-feather="menu"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto navbar-center" id="navbar-navlist">
+                    <li class="nav-item">
+                        <a href="#home" class="nav-link active">Home</a>
+                    </li>
+               
+                   
+                    <li class="nav-item">
+                        <a href="#pricing" class="nav-link">Pricing</a>
+                    </li>
+                </ul>
+                <a href="/login" class="btn btn-sm rounded-pill nav-btn ms-lg-3">Login</a>
+            </div>
+        </div>
+        <!-- end container -->
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Hero Start -->
+    <section class="hero-3 bg-center position-relative" style="background-image: url(static/images/hero-3-bg.png);" id="home">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center">
+                        <span class="badge badge-soft-primary mb-4">Carding Tutorials</span>
+                        <h1 class="font-weight-semibold mb-4 hero-3-title">Welcome, to INFOGETE</h1>
+                        <p class="mb-5 text-muted subtitle w-75 mx-auto">We have all tutorials you need namely: Carding, Loading, bank logs cashout, non-vbv cc cashout , non-vbv carding tutorials.<br> All our tutorials are tested verified before we present it to you. <br>
+                        From beginner to expert. Signe Up amd see for yourself.
+                        </p>
+
+                        <div>
+                            <button type="button" class="btn btn-primary rounded-pill me-2">Sign up for free</button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade bd-example-modal-lg" id="watchvideomodal" data-keyboard="false"
+                            tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog modal-lg">
+                                <div class="modal-content home-modal">
+                                    <div class="modal-header border-0">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <video id="VisaChipCardVideo" class="video-box" controls>
+                                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                                        <!--Browser does not support <video> tag -->
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end modal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero End -->
+
+    <!-- Cta end -->
+
+    <!-- Pricing start -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-7 text-center">
+                    <h2 class="fw-bold">Pricing Plan</h2>
+                    <p class="text-muted">We have the best methods from beginner to expert which are not public. </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="text-center mb-4 pricing-tab">
+                        <ul class="nav nav-pills rounded-pill justify-content-center d-inline-block shadow-sm"
+                            id="pricingpills-tab" role="tablist">
+                            <li class="nav-item d-inline-block">
+                                <a class="nav-link rounded-pill active" id="pills-monthly-tab" data-bs-toggle="pill"
+                                    href="#pills-monthly" role="tab" aria-controls="pills-monthly"
+                                    aria-selected="true">Monthly</a>
+                            </li>
+                            {% comment %} <li class="nav-item d-inline-block">
+                                <a class="nav-link rounded-pill" id="pills-yearly-tab" data-bs-toggle="pill"
+                                    href="#pills-yearly" role="tab" aria-controls="pills-yearly"
+                                    aria-selected="false">Yearly</a>
+                            </li> {% endcomment %}
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="pricingpills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-monthly" role="tabpanel"
+                            aria-labelledby="pills-monthly-tab">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div
+                                        class="card plan-card mt-4 rounded text-center border-0 shadow overflow-hidden">
+                                        <div class="card-body px-4 py-5">
+                                            <!-- <div class="icon-mono avatar-md bg-soft-primary text-primary rounded mx-auto mb-5"><i class="icon-lg" data-feather="circle"></i></div> -->
+                                            <div class="icon-mono avatar-md bg-soft-primary rounded mx-auto mb-5 p-3">
+                                                <img src="{% static 'images/pricing/1.png' %}" alt=""
+                                                    class="img-fluid d-block mx-auto" />
+                                            </div>
+                                            <h4 class="text-uppercase mb-4 pb-1">Basic</h4>
+                                            <p class="text-muted">unlimited articles: <span class="fw-bold">No</span></p>
+                                            <p class="text-muted">Received articles by Email : <span class="fw-bold">Yes</span></p>
+                                            <p class="text-muted">One on One Coaching : <span class="fw-bold">No</span></p>
+                                            <p class="text-muted">Tools Recommendation : <span class="fw-bold">No</span></p>
+
+
+                                            {% comment %} <p class="text-muted font-size-14 mb-1">All tutorials Included</p> {% endcomment %}
+                                            <p class="text-dark font-size-16 font-weight-semibold mb-4">$10.00 / Month
+                                            </p>
+                                            <a href="/signup" class="btn btn-soft-primary">Signe Up</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div
+                                        class="card plan-card mt-4 rounded text-center border-0 shadow overflow-hidden">
+                                        <div class="card-body px-4 py-5">
+                                            <span class="badge badge-primary pricing-badge shadow-lg">Most
+                                                Popular</span>
+                                            <!-- <div class="icon-mono avatar-md bg-soft-primary text-primary rounded mx-auto mb-5"><i class="icon-lg" data-feather="square"></i></div> -->
+                                            <div class="icon-mono avatar-md bg-soft-primary rounded mx-auto mb-5 p-3">
+                                                <img src="{% static 'images/pricing/2.png' %}" alt=""
+                                                    class="img-fluid d-block mx-auto" />
+                                            </div>
+
+                                            <h4 class="text-uppercase mb-4 pb-1">Standard</h4>
+                                            <p class="text-muted">unlimited articles: <span class="fw-bold">Yes</span></p>
+                                            <p class="text-muted">Received articles by Email : <span class="fw-bold">Yes</span></p>
+                                            <p class="text-muted">One on One Coaching : <span class="fw-bold">No</span></p>
+                                            <p class="text-muted">Tools Recommendation : <span class="fw-bold">No</span></p>
+
+                                            <p class="text-dark font-size-16 font-weight-semibold mb-4">$40.00 / Month
+                                            </p>
+                                            <a href="/signup" class="btn btn-primary">Signe Up</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div
+                                        class="card plan-card mt-4 rounded text-center border-0 shadow overflow-hidden">
+                                        <div class="card-body px-4 py-5">
+                                            <!-- <div class="icon-mono avatar-md bg-soft-primary text-primary rounded mx-auto mb-5"><i class="icon-lg" data-feather="triangle"></i></div> -->
+                                            <div class="icon-mono avatar-md bg-soft-primary rounded mx-auto mb-5 p-3">
+                                                <img src="{% static 'images/pricing/3.png' %}" alt=""
+                                                    class="img-fluid d-block mx-auto" />
+                                            </div>
+                                            <h4 class="text-uppercase mb-4 pb-1">Premium</h4>
+                                            <p class="text-muted">You will Receive article email When new method found . before the rest of suscribers,</p>
+                                            <p class="text-muted">unlimited articles: <span class="fw-bold">Yes</span></p>
+                                            <p class="text-muted">Received articles by Email : <span class="fw-bold">Yes</span></p>
+                                            <p class="text-muted">One on One Coaching : <span class="fw-bold">Yes</span></p>
+                                            <p class="text-muted">Tools Recommendation : <span class="fw-bold">Yes</span></p>
+
+                                            <p class="text-dark font-size-16 font-weight-semibold mb-4">$100 / Month
+                                            </p>
+                                            <a href="/signup" class="btn btn-soft-primary">Signe Up</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end monthly tab pane -->
+
+                    
+                        <!-- end yearly tab pane -->
+                    </div>
+                    <!-- end tab content -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </section>
+    <!-- Pricing end -->
+
+    <!-- CTA start -->
+    <section class="section bg-center w-100 bg-light" style="background-image: url(static/images/cta-bg.png);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card bg-gradient-primary text-center border-0">
+                        <div class="bg-overlay-img" style="background-image: url(static/images/demos.png);"></div>
+                        <div class="card-body mx-auto p-sm-5 p-4">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-10">
+                                    <div class="p-3">
+                                        <h2 class="text-white mb-4">Join our Growing Community</h2>
+                                        <p class="text-white-70 font-size-16 mb-4 pb-3">Far far away, behind the word
+                                            mountains, far from the countries Vokalia and Consonantia, there live the
+                                            blind texts.</p>
+                                        <a href="/signup" class="btn btn-light rounded-pill">Sign Up for
+                                            free</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </section>
+    <!-- CTA end -->
+
+    <!-- Footer Start -->
+    <!-- Footer End -->
+
+    <!-- javascript -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/smooth-scroll.polyfills.min.js' %}"></script>
+    <!-- feather-icons js -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- App Js -->
+    <script src="{% static 'js/app.js' %}"></script>
+
+</body>
+
+</html>

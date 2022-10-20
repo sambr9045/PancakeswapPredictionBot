@@ -1,0 +1,127 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+{% block header %}
+<title>Infogete | saved articles</title>
+
+{% endblock  %}
+
+{% block content %}
+
+
+{% if plan.plan is None %}
+
+{% endif %}
+
+<div class="content-wrapper">
+
+    {% if messages %}
+    <ul class="messages p-0">
+        {% for message in messages %}
+
+
+        {% if message.tags == "success" %}
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Success !!!.</h4>
+            <p>{{message}}.</p>
+            <hr>
+            <p class="mb-0"></p>
+        </div>
+
+        {% else %}
+
+        <h6 class="text-danger pt-2">{{message}}</h6>
+
+
+
+        {% endif %}
+
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="row">
+        <div class="col-lg-10">
+
+            {% for i in data %}
+
+
+            {% for x in i.saved_article.all %}
+            <div class="card text-center rounded-0 mb-4">
+                <div class="card-header ">
+                    <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <small class="text-left text-muted" style="text-align:left!important ;">Saved on :
+                                {{i.created_at}}</small>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <span>This article has <b>{{x.success_ratio}}</b> success ratio</span>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{x.article_title}}</h4>
+                    <p class="card-text">This article has been tested and verified by our team to make sure it works
+                    </p>
+                    <a href="{% url 'viewarticle' x.article_id x.article_title %}" class="btn btn-primary "><i class="
+                        mdi mdi-book-open " style="vertical-align:middle;"></i> Read</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{x.created_at|naturaltime}} <span class="p-2"><i class=" mdi mdi-eye"
+                            style="vertical-align: middle;"></i>&nbsp;<small>{{x.views|intword}}</small></span>
+                    <span class="p-2"><i class="
+                        mdi mdi-heart-outline "
+                            style="vertical-align: middle;"></i>&nbsp;<small>{{x.likes|intword}}</small></span>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% endfor %}
+
+
+            <br><br>
+
+
+            <div class="pagination">
+                <nav aria-label="Page navigation  ">
+                    <ul class="pagination">
+                        {% if data.has_previous %}
+
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ data.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+
+                        {% for i in data.paginator %}
+
+                        <li class="page-item {% if i.number == pageNumber %} active {% endif %}"><a class="page-link"
+                                href="?page={{i.number }}">{{i.number}}
+                            </a>
+
+                        </li>
+
+                        {% endfor %}
+
+                        {% if data.has_next %}
+                        <!-- <a href="?page={{ data.next_page_number }}">next</a>
+                            <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a> -->
+                        <li class="page-item"><a class="page-link" href="?page={{ data.next_page_number }}">Next</a>
+                        </li>
+                        {% endif %}
+
+
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
+{% endblock  %}

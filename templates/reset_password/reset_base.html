@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    
+   
+        
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="infogete suscribe to latest tutorials" />
+    <meta name="keywords" content="Infogete suscribe to latest carding , loading , logs, cashout tutorials" />
+    <!-- favicon --> 
+    {% block title %}
+        
+    {% endblock  %}
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+
+    <!-- css -->
+    
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet" type="text/css" />
+</head>
+
+<body data-spy="scroll" data-target="#navbar" data-offset="20">
+    <!-- Loader -->
+    {% comment %} <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    <section class="bg-account-pages vh-100 d-flex align-items-center bg-center position-relative"
+        style="background-image: url(static/images/auth-bg.png);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-5 shadow">
+                    
+                    {% block content %}
+                        
+                    {% endblock  %}
+                        
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </section>
+    <!-- end section -->
+
+    <!-- javascript -->
+    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js"
+    integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/smooth-scroll.polyfills.min.js' %}"></script>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- App Js -->
+    {% comment %} <script src="{% static 'js/app.js' %}"></script> {% endcomment %}
+    
+    <script src="{% static 'js/reset_password.js' %}"></script>
+
+</body>
+
+</html>
+
+
+

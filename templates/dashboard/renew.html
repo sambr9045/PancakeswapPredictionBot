@@ -1,0 +1,112 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Infogete | Suscription</title>
+
+{% endblock  %}
+
+{% block content %}
+
+
+{% if plan.plan is None %}
+
+{% endif %}
+
+<div class="content-wrapper">
+
+    {% csrf_token %}
+
+    {% if messages %}
+    <ul class="messages p-0">
+        {% for message in messages %}
+
+
+        {% if message.tags == "success" %}
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Success !!!.</h4>
+            <p>{{message}}.</p>
+            <hr>
+            <p class="mb-0"></p>
+        </div>
+
+        {% else %}
+
+        <h6 class="text-danger pt-2">{{message}}</h6>
+
+
+
+        {% endif %}
+
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <h4>Current plan</h4>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group p-0">
+                        <li class="list-group-item">Current Plan : <b class="b">{{current_plan.plan}}</b> </li>
+                        <li class="list-group-item">Status : <b class="b">{{status}} </b></li>
+                        <li class="list-group-item">Expire on : <b class="b">{{current_plan.expired_on}}</b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <p class="text-muted">Renew Plan</p>
+                </div>
+                <div class="card-body p-0">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <ul class="list-group p-0">
+                                <li class="list-group-item border-0">Plan : </li>
+                                <li class="list-group-item border-0">Amount to pay </li>
+                                <li class="list-group-item border-0">Periode </li>
+
+                                <li class="list-group-item border-0">Expire on</li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-6">
+                            <ul class="list-group p-0">
+                                <li class="list-group-item border-0"><b class="text-primary">{{current_plan.plan}}</b>
+                                </li>
+                                <li class="list-group-item border-0"><b class="text-primary">
+                                        ${{current_plan.amountTotal}}</b></li>
+                                <li class="list-group-item border-0"><b class="text-primary">
+
+                                        {% if current_plan.periode == 1 %}
+                                        {{current_plan.periode}} month
+                                        {% else %}
+                                        {{current_plan.periode}} months
+                                        {% endif %}
+                                    </b>
+                                </li>
+
+                                <li class="list-group-item border-0">
+                                    <b class="text-primary">{{expired_date}}</b>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <form action="{% url 'renewplan' %}" method="post">
+                        {% csrf_token %}
+                        <div class="fomr-group m-4">
+                            <button type="submit" class="btn btn-primary" name="renew_plan">Renew plan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock  %}

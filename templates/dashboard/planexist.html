@@ -1,0 +1,125 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block header %}
+<title>Infogete | Suscription</title>
+
+{% endblock  %}
+
+{% block content %}
+
+
+{% if plan.plan is None %}
+
+{% endif %}
+
+<div class="content-wrapper">
+
+    {% csrf_token %}
+
+    {% if messages %}
+    <ul class="messages p-0">
+        {% for message in messages %}
+
+
+        {% if message.tags == "success" %}
+
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">Success !!!.</h4>
+            <p>{{message}}.</p>
+            <hr>
+            <p class="mb-0"></p>
+        </div>
+
+        {% else %}
+
+        <h6 class="text-danger pt-2">{{message}}</h6>
+
+
+
+        {% endif %}
+
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="col-lg-12">
+        <div class="card rounded-0">
+            <div class="card-header">
+                <p class="text-muted">
+                   
+                   {% if plan.paid == True %}
+                   Plan active
+                    {% else %}
+                    Pending plan suscription
+                   {% endif %}
+                    
+                </p>
+            </div>
+            <div class="card-body">
+
+                <a href="/dashboard/payment/{{transaction.transactions_id}}/{{plan.plan}}/"
+                    style=" text-decoration:none;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr class="border-1">
+                                    <td class="b">plan </td>
+                                    <td>status </td>
+                                    <td>Price </td>
+                                    <td>expiration date </td>
+                                    <td class="text-center">action </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        {{plan.plan}}
+                                    </th>
+                                    <td>
+                                    {% if plan.paid == True and plan.plan_active == True %}
+                                        <b class="text-success">active</b>
+                                    {% else %}
+                                        pending
+                                    {% endif %}
+                                        </td>
+                                    <td><b>
+                                            ${{plan.amountTotal}}
+                                    </b></td>
+                                     {% comment %} <td>expirind date: {{plan.expired_on}} </td> {% endcomment %}
+                                    <td>{{plan.expired_on}}</td>
+                                    <td class="text-center">
+                                        
+                                    
+                                    {% if plan.paid == True and plan.plan_active == True %} 
+
+                                    <a href="/dashboard/renew-plan"
+                                    class="btn btn-primary"><i class=" mdi mdi-autorenew  "
+                                        style="vertical-align:middle ;"></i>&nbsp; renew</a>
+
+                                    {% comment %} <a href="/dashboard/upgrade"
+                                        class="btn btn-info"><i class=" mdi mdi-package-up"
+                                            style="vertical-align:middle ;"></i>&nbsp; Upgrade plan</a>
+                                         {% endcomment %}
+                                    {% else %}
+                                    <a href="/dashboard/payment/{{transaction.transactions_id}}/{{plan.plan}}/"
+                                    class="btn btn-primary"><i class=" mdi mdi-eye "
+                                        style="vertical-align:middle ;"></i>&nbsp; view</a>
+                                        
+                                    {% endif %}
+                                        
+                                            
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock  %}

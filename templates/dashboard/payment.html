@@ -1,0 +1,113 @@
+{% extends 'dashboard/base.html' %}
+{% load qr_code %}
+
+{% block header %}
+<title>Infogete | Tickets</title>
+
+{% endblock  %}
+
+{% block content %}
+<div class="content-wrapper">
+    <div class="row ">
+        <div class="col-lg-6 col-md-12 mb-2">
+            <div class="card rounded-1">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p class="text-muted"><span class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span class="amountReceive"> {{waiting}}</p>
+                        </div>
+                        <div class="col-lg-6" style="text-align:right!important ;">
+                            <span class="remaining_time  text-danger" remaining_time="{{remaining_time}}"> Time
+                                left : <b id="demo"></b></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body p-0">
+
+                    <ul class="list-group">
+                        <li class="list-group-item">address : <b>{{payment_data.btc_address}}</b></li>
+                        <li class="list-group-item">Amount: <b>$&nbsp;{{payment_data.amount}}</b></li>
+                        <li class="list-group-item">Amount in Btc: <b>{{amount_in_btc}} <i class="mdi mdi-currency-btc"
+                                    style="vertical-align: middle;"></i></b> </li>
+                        <li class="list-group-item">Suscription plan: <b>{{plan}}</b></li>
+                        <li class="list-group-item">suscription period: <b>
+                                {{suscription_data.updated_at}}- {{suscription_data.expired_on}}
+                            </b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 text-center">
+            <div class="card rounded-1 ">
+                <div class="card-header">
+                    <p class="text-muted">QR CODE</p>
+                </div>
+                <div class="card-body p-0">
+                    <div class="text-center p-1 border">
+                        {% qr_from_data qrcode size=10  version=6 %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-groupe mt-4">
+           
+           {% if payment_data.transaction_type == "newplan" %}
+            <form action="{% url 'suscriptions'  %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" id="transaction_id" name="transaction_id" value="{{payment_data.transactions_id}}">
+                <button type="submit" class="btn btn-danger" name="cancel_transactions_plan"> <i class="mdi mdi-delete "
+                        style="vertical-align: middle;"></i> Cancel this suscription plan</button>
+            </form>
+           {% endif %}
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+{% endblock  %}
+
+
+{% block footer %}
+
+<script>
+    $(document).ready(function () {
+        let countDownminutes = $(".remaining_time").attr("remaining_time")
+        let value = $(".amountReceive").html()
+        console.log(value)
+
+        var countDownDate = new Date().getTime() + countDownminutes * 60 * 1000;
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("demo").innerHTML = hours + ":" +
+                minutes + ":" + seconds;
+            if (distance < 0) {
+                clearInterval(x);
+                //document.getElementById("demo").innerHTML = "EXPIRED";
+                //window.location.replace("/dashboard/suscription")
+            }else if( value.includes("received")){
+                clearInterval(x)
+                $("#demo").html(" ")
+
+
+            }
+        }, 1000);
+
+
+        setInterval(function () {
+            location.reload()
+        }, 100000)
+    })
+</script>
+{% endblock  %}

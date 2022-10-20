@@ -1,0 +1,46 @@
+.periode_activate {
+    border: 1px solid #369 !important;
+
+}
+
+.periode:hover {
+    cursor: pointer;
+}
+
+.periode_activate b {
+    color: #359;
+}
+
+/* .periode_activate h3 {
+    color: #369;
+} */
+
+.periode_activate .card-header {
+    background-color: #359 !important;
+    color: white !important;
+}
+
+/* pop  */
+
+
+.customArticle h2 h3 h4 h5 {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: gray !important;
+    font-size: 18px !important;
+    text-transform: capitalize;
+}
+
+.customArticle h1 {
+    font-size: 22px !important;
+}
+
+.customArticle ul li {
+    font-size: 18px;
+}
+
+.customArticle p {
+    font-size: 18px;
+    line-height: 2em;
+    font-family: Helvetica, Arial, sans-serif;
+    color: rgb(21, 20, 26);
+}

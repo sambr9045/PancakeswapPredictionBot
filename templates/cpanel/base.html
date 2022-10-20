@@ -1,0 +1,164 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  {% block header %}
+  {% endblock  %}
+
+
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/mdi/css/materialdesignicons.min.css' %}">
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/typicons/typicons.css' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/simple-line-icons/css/simple-line-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}"> {% endcomment %}
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'dashboard/vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  {% endcomment %}
+  {% comment %}
+  <link rel="stylesheet" href="{% static 'dashboard/js/select.dataTables.min.css' %}"> {% endcomment %}
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/static/images/favicon.ico" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+        <div>
+          <a class="navbar-brand brand-logo" href="">
+            {% comment %} <img src="" alt="Infogete" height="680" /> {% endcomment %}
+            <h4 style="height:7px;">INFOGETE</h4>
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="">
+            <img src="/static/images/favicon.ico" alt="logo" />
+            {% comment %} <h4 style="height:7px;">I</h4> {% endcomment %}
+
+          </a>
+
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-top">
+        <ul class="navbar-nav">
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            <h1 class="welcome-text">Hi, <span class="text-black fw-bold">{{request.user.username}}</span></h1>
+            <h3 class="welcome-sub-text">{{sub_title}}</h3>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+
+
+
+          <li class="nav-item">
+            <form class="search-form" action="#">
+              <i class="icon-search"></i>
+              <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+            </form>
+          </li>
+
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+          data-bs-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'cpanel' %}">
+              <i class=" mdi mdi-view-dashboard  menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"  href="">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">Upload-article</span>
+             
+            </a>
+          </li>
+          
+          
+          <li class="nav-item">
+            <a class="nav-link"  href="{% url 'logout' %}">
+              <i class="menu-icon 
+              mdi mdi-logout-variant "></i>
+              <span class="menu-title">Logout</span>
+             
+            </a>
+            
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+
+
+        {% block content %}
+
+        {% endblock  %}
+
+
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+  <script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  {% comment %} <script src="{% static 'dashboard/vendors/chart.js/Chart.min.js' %}"></script> {% endcomment %}
+  {% comment %} <script src="{% static 'dashboard/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}">
+  </script> {% endcomment %}
+  {% comment %} <script src="{% static 'dashboard/vendors/progressbar.js/progressbar.min.js'%}"></script>
+  {% endcomment %}
+
+  <!-- End plugin js for this page -->
+  
+  <!-- inject:js -->
+  <script src="{%  static 'dashboard/js/off-canvas.js' %}"></script>
+  {% comment %} <script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script> {% endcomment %}
+  <script src="{% static 'dashboard/js/template.js' %}"></script>
+ 
+  {% comment %} <script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+  <script src="{% static 'dashboard/js/notifications.js' %}"></script> {% endcomment %}
+  <script src="{% static 'cpanel/js/main.js' %}"></script>
+
+
+  {% block footer %}
+
+  {% endblock  %}
+
+</body>
+
+</html>

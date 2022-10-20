@@ -1,0 +1,88 @@
+{% extends 'dashboard/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block header %}
+<title>Infogete | Dashboard </title>
+<link rel="stylesheet" href="{% static 'dashboard/css/vertical-layout-light/custom.css' %}">
+
+{% endblock  %}
+{% block category %}
+{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+
+
+
+  <div class="row mb-4">
+    <div class="col-lg-9">
+
+
+      <div class="card text-center rounded-0 mb-4">
+        <div class="card-header">
+          #{{data.category}}
+
+        </div>
+        <div class="card-body">
+          <h4 class="card-title" style="text-align: left;">{{data.article_title}}</h4>
+
+          <div class="text-left welcome-sub-text customArticle" style="text-align:left; font-size:larger!important;">
+
+            {% autoescape off %}
+            {{data.content|linebreaks}}
+            {% endautoescape %}
+
+
+            {% if viewarticle.like == Fasle %}
+            <div class="like">
+              <span class="bg-light shadow border rounded-1 p-2 likepost" style="cursor:pointer ;"
+                article_id="{{data.article_id}}" article_title="{{data.article_title}}"><i class="
+                mdi mdi-heart-outline likearticle" style="vertical-align: middle;"></i> like </span>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-0 col-sm-0">
+      <div class="card rounded-1">
+        <div class="card-body p-2">
+          <ul class="list-group ">
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+              Views
+              <span class="badge badge-primary badge-pill">{{data.views |intword}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+              Likes
+              <span class="badge badge-primary badge-pill">{{data.likes |intword}}</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center border-0">
+              Success Ratio
+              <span class="badge badge-primary badge-pill">{{data.success_ratio}}</span>
+
+
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</div>
+{% endblock  %}
+
+
+{% block footer %}
+<script src="{% static 'dashboard/js/like.js' %}"></script>
+
+{% endblock  %}

@@ -1,0 +1,32 @@
+2022-10-20 21:00:27.077271+00:00:  print waiting for 126 seconds 
+2022-10-20 21:01:53.496572+00:00:  print waiting for 40 seconds 
+2022-10-20 21:06:21.032692+00:00:  print waiting for 82 seconds 
+2022-10-20 21:08:54.792863+00:00:  print waiting for 238 seconds 
+2022-10-20 21:11:31.100214+00:00:  print waiting for 81 seconds 
+2022-10-20 21:13:25.852340+00:00:  print waiting for 276 seconds 
+2022-10-20 21:14:30.477968+00:00:  print waiting for 211 seconds 
+2022-10-20 21:18:39.313046+00:00:  print waiting for 269 seconds 
+2022-10-20 21:23:13.379676+00:00 : Current epock113622 expired |  seconds 289 | Bull 0.0 | bear 0.0 
+2022-10-20 21:23:15.359565+00:00: Bull(1.15), bear(7.45) Not profitable odds 
+2022-10-20 21:23:17.308842+00:00: Bull(1.21), bear(5.77) Not profitable odds 
+2022-10-20 21:23:19.279705+00:00: Bull(1.22), bear(5.48) Not profitable odds 
+2022-10-20 21:23:21.259481+00:00: Bull(1.2), bear(6.08) Not profitable odds 
+2022-10-20 21:23:23.229127+00:00: Bull(1.2), bear(6.08) Not profitable odds 
+2022-10-20 21:23:25.150678+00:00: Bull(1.75), bear(2.33) Not profitable odds 
+2022-10-20 21:23:27.189671+00:00: Bull(1.75), bear(2.33) Not profitable odds 
+2022-10-20 21:23:30.268870+00:00: Bull(1.75), bear(2.33) Not profitable odds 
+2022-10-20 21:23:32.199107+00:00: Bull(1.75), bear(2.33) Not profitable odds 
+2022-10-20 21:23:34.138967+00:00: Bull(1.75), bear(2.33) Not profitable odds 
+2022-10-20 21:23:36.079508+00:00: Bull(1.75), bear(2.33) Not profitable odds 
+2022-10-20 21:23:38.009058+00:00:  print waiting for 279 seconds 
+2022-10-20 21:28:22.041616+00:00 : Current epock113623 expired |  seconds 299 | Bull 0.0 | bear 0.0 
+2022-10-20 21:28:25.677948+00:00: Bull(1.6099999999999999), bear(2.6399999999999997) Not profitable odds 
+2022-10-20 21:28:27.976327+00:00: Bull(1.6600000000000001), bear(2.52) Not profitable odds 
+2022-10-20 21:28:30.346060+00:00: Bull(1.6600000000000001), bear(2.52) Not profitable odds 
+2022-10-20 21:28:32.826614+00:00: Bull(1.99), bear(2.01) Not profitable odds 
+2022-10-20 21:28:35.206750+00:00: Bull(2.1100000000000003), bear(1.9) Not profitable odds 
+2022-10-20 21:28:37.537105+00:00: Bull(2.1100000000000003), bear(1.9) Not profitable odds 
+2022-10-20 21:28:39.897100+00:00: Bull(2.1100000000000003), bear(1.9) Not profitable odds 
+2022-10-20 21:28:42.585859+00:00: Bull(2.1100000000000003), bear(1.9) Not profitable odds 
+2022-10-20 21:28:44.889836+00:00: Bull(2.1100000000000003), bear(1.9) Not profitable odds 
+2022-10-20 21:28:47.256572+00:00:  print waiting for 279 seconds 
