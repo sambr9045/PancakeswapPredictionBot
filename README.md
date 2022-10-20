@@ -1,2 +1,2 @@
-# bugs to fix 
-create payment plan pricing table 
+# prediction bot 
+creating pancake swap prediciton bot with python and web3.py
