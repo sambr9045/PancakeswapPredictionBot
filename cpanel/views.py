@@ -1,11 +1,5 @@
-# from ctypes import addressof
-# from http import client
-# from importlib.resources import path
-# import symbol
-# from typing import Type
-from email import message
-import logging
-from django.http import HttpResponse
+from telnetlib import STATUS
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # from django.contrib.auth.models import User
@@ -20,6 +14,7 @@ import random, os
 from binance.client import Client
 from dotenv import load_dotenv
 from src import base
+from src.predict import Predict
 
 # from src import main
 import time
@@ -28,8 +23,9 @@ import threading
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
+from django.views.generic import TemplateView
 
-BET_TYPE = {"safe": {"bear": 2.5, "bull": 1.8}, "gamble": {"bear": 3.0, "bull": 1.4}}
+
 wallet_1 = [os.getenv("wallet_pk_one"), os.getenv("wallet_address_one")]
 wallet_2 = [os.getenv("wallet_pk_two"), os.getenv("wallet_address_two")]
 
@@ -37,308 +33,189 @@ wallet_2 = [os.getenv("wallet_pk_two"), os.getenv("wallet_address_two")]
 load_dotenv()
 
 hash = []
-threading_ = []
+first_thread = []
+exite_thread = None
 locked = False
 current_epock = 0
 
 
 @login_required(login_url="/login")
 def cpanel(request):
-    wallet_one_balance = initialize(wallet_1).wallet_balance()
-    wallet_two_balance = initialize(wallet_2).wallet_balance()
+    # wallet_one_balance = Bot.initialize(wallet_1).wallet_balance()
+    # wallet_two_balance = Bot.initialize(wallet_2).wallet_balance()
     server = models.server_status.objects.all().order_by("-created_at").first()
     total_bet = models.pancakeswapPredicition.objects.all().count()
-    total_success = models.pancakeswapPredicition.objects.filter(claimable=True).count()
+    total_success = models.pancakeswapPredicition.objects
     context = {
         "sub_title": "webcome back ",
-        "wallet_one": convert(wallet_one_balance, "USD"),
-        "wallet_two": convert(wallet_two_balance, "USD"),
         "server": server,
         "total_bet": total_bet,
-        "total_success": total_success,
+        "total_success": total_success.filter(claimable=True).count(),
+        "total_bet_row": total_success.all().order_by("-created_at")[0:10],
     }
     return render(request, "cpanel/cpanel.html", context)
 
 
-def initialize(wallets):
-    path = os.getcwd() + "/src/abi/abi.json"
-    return base.Base(wallets[1], wallets[0], path)
+class Bot(TemplateView):
+    def __init__(self) -> None:
+        self.wallet_object_one = self.initialize(wallet_1)
+        self.wallet_object_two = self.initialize(wallet_2)
+        self.locked = False
+        self.bet_type = ""
+        self.amount_in_bnb = 0
+        self.waitin_time_to_claim = 310
+        self.hash = []
 
+        self.second_thread = []
+        self.current_epoch = 0
 
-def main(request):
-    bet_type = request.POST["bet_type"]
-    balance = request.POST["balance"]
-    amount_in_bnb = convert(balance, type="BNB")
+    @staticmethod
+    def initialize(wallets):
+        path = os.getcwd() + "/src/abi/abi.json"
+        return base.Base(wallets[1], wallets[0], path)
 
-    waiting_time_to_claime = 310  # > 5 minutes
+    def get(self, request, *args, **kwargs):
 
-    while True:
+        if request.is_ajax:
 
-        prediction_1 = initialize(wallet_1)
-        prediction_2 = initialize(wallet_2)
+            # fetch wallet balance
+            if "load_balance" in request.GET:
 
-        if locked:
-            lock_true(
-                waiting_time_to_claime, [prediction_1, prediction_2], current_epock
-            )
-        else:
-            locked_false([prediction_1, prediction_2], bet_type, amount_in_bnb)
+                wallet_one_balance = self.initialize(wallet_1).wallet_balance()
+                wallet_two_balance = self.initialize(wallet_2).wallet_balance()
+                response = {
+                    "wallet_one": Predict.convert(wallet_one_balance),
+                    "wallet_two": Predict.convert(wallet_two_balance),
+                }
+                return JsonResponse(response)
 
-        time.sleep(1)
+            # clear logs in database
+            if "clear_logs" in request.GET:
+                models.message_logging.objects.all().delete()
+                return JsonResponse({"result": "done"})
 
+            # fetch server logs
+            if "fetch_logs" in request.GET:
+                data = (
+                    models.message_logging.objects.all().order_by("-created_at").first()
+                )
 
-def start(request):
-    if request.POST:
-        y = threading.Thread(target=main, args=(request,), daemon=True)
-        global threading_
-        y.start()
-        threading_.append(y)
-
-        # y.join()
-
-        models.server_status.objects.create(
-            status=True,
-            logging="Running",
-            started_at=timezone.now(),
-            stoped_at=None,
-            updated_at=None,
-        )
-
-    return HttpResponse("running...")
-
-
-# when the bet is placed
-def lock_true(waiting_time, initialize_object, current_epoch):
-    write_file("waiting for 5 minutes Before Checking for result \n")
-
-    time.sleep(waiting_time)
-    wallet_balance_one = initialize_object[0].wallet_balance()
-    wallet_balance_tow = initialize_object[1].wallet_balance()
-    # convert balance from wallet one to wallet to to be equal
-
-    difference = make_number_equal(
-        float(convert(wallet_balance_one, "USD")),
-        float(convert(wallet_balance_tow, "USD")),
-    )
-    amount_in_bnb = convert(difference[0], "BNB")
-
-    if difference[1] == "wallet1":
-        # send money from wallet one to wallet two
-        try:
-            tx = initialize_object[0].send(
-                amount_in_bnb, initialize_object[1].account_address
-            )
-            write_file(
-                f"Sent {amount_in_bnb} BNB from wallet1 to wallet 2  hash {tx} \n"
-            )
-        except Exception as e:
-            write_file(f"Failed to send {amount_in_bnb} BNB to Wallet 2 |Error: {e} \n")
-
-    else:
-        # send money from wallet two to wallet one
-        try:
-
-            tx = initialize_object[1].send(
-                amount_in_bnb, initialize_object[0].account_address
-            )
-            write_file(
-                f"Sent {amount_in_bnb} BNB from wallet2 to wallet 1 hash {tx} \n"
-            )
-        except Exception as e:
-            write_file(f"Failed to send {amount_in_bnb} BNB to wallet 1 | Error : {e}")
-
-    # try to see how much we made
-    claimable1 = initialize_object[0].claimable(
-        current_epoch, initialize_object[0].current_address
-    )
-    claimable2 = initialize_object[1].claimable(
-        current_epoch, initialize_object[1].current_address
-    )
-
-    if claimable1:
-        models.pancakeswapPredicition.objects.filter(
-            epoch=current_epoch, wallet_number=1
-        ).update(claimable=True)
-    elif claimable2:
-        models.pancakeswapPredicition.objects.filter(
-            epoch=current_epoch, wallet_number=2
-        ).update(claimable=True)
-    else:
-        message = f"Transaction failed : Not bettable or insuficient fund , epoch :{current_epoch} \n"
-        write_file(message)
-        models.server_status.objects.create(
-            status=True, logging=message, updated_at=timezone.now()
-        )
-    global locked
-    locked = False
-
-    return locked
-
-
-# not in bet looking for bet
-
-
-def locked_false(initialized_pbjects, bet_type, amount_in_bnb):
-    looking = initialized_pbjects[0].look_for_trade()
-    seconds = looking[0]
-    bull = float(looking[1])
-    bear = float(looking[2])
-
-    if int(seconds) >= 15:
-        write_file(f"{timezone.now()}:  print waiting for {seconds - 20} seconds \n")
-        time.sleep(seconds - 15)
-
-    if seconds <= 15:
-        trade_type = BET_TYPE[bet_type]
-
-        if (
-            (bull >= trade_type["bull"])
-            and (bear >= trade_type["bear"])
-            or (bear >= trade_type["bear"])
-            and (bull >= trade_type["bull"])
-        ):
-
-            data = [
-                initialized_pbjects,
-                amount_in_bnb,
-                ["bear", "bull"],
-                "send_transation",
-            ]
-
-            try:
-                thread(data)
-            except Exception as e:
-                write_file(f"Error: {e}")
-            data1 = {
-                "epock": initialized_pbjects[0].current_epoch,
-                "bear": bear,
-                "bull": bull,
-                "wallet_number": 1,
-                "transaction_hash": hash[0],
-                "claimable": False,
-                "claimed": False,
-                "wallet_balance": initialized_pbjects[0].wallet_balance(),
-                "bet_type": bet_type,
-            }
-            data2 = {
-                "epock": initialized_pbjects[1].current_epoch,
-                "bear": bear,
-                "bull": bull,
-                "wallet_number": 2,
-                "transaction_hash": hash[2],
-                "claimable": False,
-                "claimed": False,
-                "wallet_balance": initialized_pbjects[0].wallet_balance(),
-                "bet_type": bet_type,
-            }
-            data = [data1, data2]
-            _save(data)
-            global current_epock
-            current_epock = initialized_pbjects[0].current_epoch
-            global locked
-            locked = True
-            return locked
-        else:
-            write_file(
-                f"{timezone.now()}: Bull({bull}), bear({bear}) Not profitable odds \n"
-            )
-            return
-    else:
-        write_file(
-            f"{timezone.now()} : Current epock{initialized_pbjects[0].current_epoch} expired |  seconds {seconds} | Bull {bull} | bear {bear} \n"
-        )
-        return
-
-
-def send_transaction(initilized_object, amount, type):
-    global hash
-    result = initilized_object.send_transaction(amount, type)
-    hash.append(result)
-
-
-def convert(amount, type="USD"):
-    client = Client(os.getenv("APIKEY"), os.getenv("APISECRET"), tld="us")
-    value = client.get_symbol_ticker(symbol="BNBUSD")["price"]
-    usd_bnb = float("{:.6f}".format(float(amount) / float(value)))
-
-    if type == "USD":
-        return float("{:.2f}".format(float(value) * float(amount)))
-    else:
-        return usd_bnb
-
-
-def thread(data):
-    threads = list()
-    for index, value in enumerate(data[0], start=0):
-        x = threading.Thread(
-            target=send_transaction, args=(value, data[1], data[index])
-        )
-        threads.append(x)
-        x.start()
-
-    for i in threads:
-        i.join()
-
-
-def write_file(message):
-    with open("predictions.txt", "a") as file:
-        file.write(message)
-    models.message_logging.objects.create(message=message)
-
-
-# make two different number equal
-def make_number_equal(value1, value2):
-    if value1 > value2:
-        bigger_number = value1
-        lower_number = value2
-        wallet_name = "wallet2"
-    else:
-        bigger_number = value2
-        lower_number = value1
-        wallet_name = "wallet1"
-    number_difference = bigger_number - lower_number
-    divide_number = number_difference / 2
-    # send divide_Number from bigger wallet to smaller wallet
-    return [divide_number, wallet_name]
-
-
-def _save(data):
-    for i in data:
-        models.pancakeswapPredicition.objects.create(**i)
-
-
-@csrf_exempt
-def fetchlogs(request):
-    if request.POST:
-        if threading_:
-            for i in threading_:
-                if i.is_alive():
-                    return HttpResponse("Thread still running")
+                if not data:
+                    value = "server_off"
                 else:
-                    server_ = models.server_status.objects.filter(
-                        status=True
-                    ).update_or_create(
-                        status=False,
-                        logging="THreading is not running",
-                    )
-                    return HttpResponse("down")
-        else:
-            server_ = models.server_status.objects.filter(status=True).update_or_create(
-                status=False,
-                logging="THreading is not running",
+                    value = data.message
+                return JsonResponse({"result": value})
+
+    def post(self, request, *args, **kwargs):
+        # starting bot thread
+        server_status = models.server_status.objects
+
+        if server_status.all().first().status == False:
+            server_status.all().update(status=True)
+
+        if request.is_ajax and "start_bot" in request.POST:
+            try:
+                global exite_thread
+                exite_thread = True
+                x = threading.Thread(target=self.bot, args=(request,))
+                x.start()
+
+                global first_thread
+                first_thread.append(x)
+                # models.thread_value.objects.create(x=x)
+                return JsonResponse({"result": "Thread is running"})
+            except Exception as e:
+                server_status.all().update(status=False)
+                Predict.write_file(f"Server Failed and error occured : Error {e}")
+
+        # stabilized balance from dashboard
+        if request.is_ajax and "stabilize_balance" in request.POST:
+            result = self.stablized_balance()
+            Predict.write_file(result)
+            return JsonResponse({"result": result})
+
+        # check thread status
+        if request.is_ajax and "thread_running" in request.POST:
+            # thead_id = models.thread_value.objects.all()
+            if first_thread:
+                for i in first_thread:
+                    if i.is_alive():
+                        return JsonResponse({"result": "Thread is running"})
+                    else:
+                        models.server_status.objects.all().update(
+                            status=False, stoped_at=timezone.now()
+                        )
+
+                        return JsonResponse({"result": "down"})
+            else:
+
+                models.server_status.objects.all().update(
+                    status=False, stoped_at=timezone.now()
+                )
+                return JsonResponse({"result": "down"})
+
+        # stop thread
+        if "stop_thread" in request.POST:
+            exite_thread = False
+            first_thread = []
+            models.server_status.objects.all().update(
+                status=False, started_at=timezone.now()
             )
-            return HttpResponse("down")
+            return JsonResponse({"result": "thread_stopped"})
 
+    # STARTING PREDICTION BOT
+    def bot(self, request):
+        self.bet_type = request.POST["bet_type"]
+        self.amount_in_bnb = Predict.convert(request.POST["balance"], type="BNB")
 
-@csrf_exempt
-def showlogs(request):
-    if request.POST:
-        data = models.message_logging.objects.latest("created_at")
-        print(data.message)
-        return HttpResponse(data.message)
+        while exite_thread:
 
+            self.wallet_object_one = self.initialize(wallet_1)
+            self.wallet_object_two = self.initialize(wallet_2)
 
-@csrf_exempt
-def clearlogs(request):
-    if request.POST:
-        models.message_logging.objects.all().delete()
+            if self.locked:
+                Predict.write_file(
+                    f"But placed waiting  for 5 minutes before checking balance \n"
+                )
+                time.sleep(self.waitin_time_to_claim)
+                result = self.stablized_balance()
+                Predict.write_file(result)
+                self.locked = Predict.loked_true(
+                    [self.wallet_object_one, self.wallet_object_two], self.current_epoch
+                )
+
+            else:
+                values = Predict.loked_false(
+                    [self.wallet_object_one, self.wallet_object_two],
+                    self.bet_type,
+                    self.amount_in_bnb,
+                )
+                if values or values is not "":
+                    self.current_epoch = values[1]
+                    self.locked = values[0]
+
+            time.sleep(1)
+
+    # STABILIZED PRICE (make wallet1 and wallet 2 equal)
+    def stablized_balance(self):
+        balance_one = Predict.convert(self.wallet_object_one.wallet_balance())
+        balance_two = Predict.convert(self.wallet_object_two.wallet_balance())
+        vals = Predict.make_number_equal(balance_one, balance_two)
+        new_value = []
+        if vals[1] == 1:
+            new_value.append(
+                [self.wallet_object_one, self.wallet_object_two.account_address]
+            )
+        elif vals[1] == 2:
+            new_value.append(
+                [self.wallet_object_two, self.wallet_object_one.account_address]
+            )
+
+        try:
+            new_value[0][0].send(Predict.convert(vals[0], "BNB"), new_value[0][1])
+
+            return f"Wallet {vals[1]} sent ${vals[0]} to other wallet"
+
+        except Exception as e:
+            message = f"Stabilized wallet balance failed; Error: {e} {vals[0]}\n"
+            return message

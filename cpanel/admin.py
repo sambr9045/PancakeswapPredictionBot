@@ -4,7 +4,17 @@ from . import models
 
 class prediction(admin.ModelAdmin):
     model = models.pancakeswapPredicition
-    list_display = ("epoch", "bull", "bear", "wallet_number", "claimable", "bet_type")
+    list_display = (
+        "epoch",
+        "bull",
+        "bear",
+        "wallet_number",
+        "claimable",
+        "claimed",
+        "bet_type",
+        "transaction_hash",
+        "created_at",
+    )
 
 
 admin.site.register(models.pancakeswapPredicition, prediction)
@@ -31,3 +41,19 @@ class logging(admin.ModelAdmin):
 
 
 admin.site.register(models.message_logging, logging)
+
+
+class transaction_hash(admin.ModelAdmin):
+    model = models.transaction_hash
+    list_display = ("epoch", "transaction_hash", "wallet_number", "created_at")
+
+
+admin.site.register(models.transaction_hash, transaction_hash)
+
+
+class threading(admin.ModelAdmin):
+    model = models.thread_value
+    list_display = ("x",)
+
+
+admin.site.register(models.thread_value, threading)

@@ -1,0 +1,10 @@
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 
+:{'code': -32000, 'message': 'insufficient funds for gas * price + value'} 

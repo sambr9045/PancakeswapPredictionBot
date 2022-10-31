@@ -2,6 +2,10 @@ from datetime import datetime, timezone
 from web3 import Web3
 import json
 
+# from dotenv import load_dotenv
+
+# load_dotenv()
+
 
 class Base:
     def __init__(self, account_address, wallet_pk, abi_path):
@@ -91,10 +95,10 @@ class Base:
                 )
             )
 
-        self.send_raw_transaction(tx_build, self.wallet_pk)
+        result = self.send_raw_transaction(tx_build, self.wallet_pk)
+        return result.hex()
 
     def claim_wining(self, epoch):
-        # claim Winnings
         tx_build = (
             self.contract()
             .functions.claim([epoch])
@@ -107,7 +111,9 @@ class Base:
                 }
             )
         )
-        tx_hex = self.WEB.eth.send_raw_transaction(tx_build, self.wallet_pk)
+        singe_tx = self.WEB3.eth.account.signTransaction(tx_build, self.wallet_pk)
+
+        tx_hex = self.WEB3.eth.sendRawTransaction(singe_tx.rawTransaction)
         return self.WEB3.toHex(tx_hex)
 
     # check for winning
@@ -144,3 +150,15 @@ class Base:
         signe_tx = self.WEB3.eth.account.signTransaction(tx_build, self.wallet_pk)
         result = self.WEB3.eth.sendRawTransaction(signe_tx.rawTransaction)
         return result.hex()
+
+
+# if __name__ == "__main__":
+#     wallet_1 = [os.getenv("wallet_pk_one"), os.getenv("wallet_address_one")]
+#     wallet_2 = [os.getenv("wallet_pk_two"), os.getenv("wallet_address_two")]
+#     path = os.getcwd() + "/src/abi/abi.json"
+
+#     objec_1 = Base(wallet_1[1], wallet_1[0], path)
+#     objec_2 = Base(wallet_2[1], wallet_2[0], path)
+
+#     claiming = objec_1.claim_wining(116165)
+#     print(claiming)
